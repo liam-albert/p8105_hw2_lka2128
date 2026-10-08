@@ -150,7 +150,9 @@ The Trash Wheel data set contains information about trash collected by Mr. Trash
 
 ## Problem 3
 
-```{r}
+Incomplete, had trouble uploading file
+
+```{r eval=FALSE}
 library(tidyverse)
 library(janitor)
 
@@ -158,10 +160,9 @@ mci_baseline= read_csv("./data_mci/MCI_baseline.csv") |>
   clean_names()
 names(mci_baseline)
 
-
-
 ```
-# Incomplete, had trouble uploading files
+
+
 
 
 
