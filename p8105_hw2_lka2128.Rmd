@@ -73,5 +73,81 @@ The proportion of entrances and exits without vending that allows entrance is 0.
 
 
 
+# Problem 2
+
+```{r message=FALSE, warning=FALSE}
+
+library(readxl)
+library (tidyverse)
+library (janitor)
+
+mr_trash_df= read_excel(
+  "data/202610 Trash Wheel Collection Data.xlsx",
+  sheet = "Mr. Trash Wheel",
+  range = "A2:N742"
+) |>
+  clean_names() |> 
+  filter(!is.na(dumpster)) |>
+  mutate(
+    year= as.numeric(year),
+    sports_balls = as.integer(round(sports_balls)),
+    trash_wheel = "Mr. Trash Wheel"
+  )
+
+prof_trash_df = read_excel(
+  "data/202610 Trash Wheel Collection Data.xlsx",
+  sheet = "Professor Trash Wheel",
+  range = "A2:M139"
+) |>
+  clean_names() |>
+  filter(!is.na(dumpster)) |>
+  mutate(
+    year = as.numeric(year),
+    plastic_bottles = as.numeric(plastic_bottles),
+    trash_wheel = "Professor Trash Wheel"
+  )
+
+gwynnda_df = read_excel(
+  "data/202610 Trash Wheel Collection Data.xlsx",
+  sheet = "Gwynnda the Good Wheel of the W",
+  range = "A2:L394"
+) |>
+  clean_names() |>
+  filter(!is.na(dumpster)) |>
+  mutate(
+    year = as.numeric(year),
+    trash_wheel = "Gwynnda"
+  )
+
+trash_df = bind_rows(
+  mr_trash_df,
+  prof_trash_df,
+  gwynnda_df
+)
+
+nrow(trash_df)
+
+trash_df |>
+  filter(trash_wheel == "Professor Trash Wheel") |>
+  summarize(
+    total_weight = sum(weight_tons, na.rm = TRUE)
+  )
+
+trash_df |>
+  filter(
+    trash_wheel == "Gwynnda",
+    year == 2022,
+    month == "June"
+  ) |>
+  summarize(
+    total_cigarettes = sum(cigarette_butts, na.rm = TRUE)
+  )
+
+```
+
+The Trash Wheel data set contains information about trash collected by Mr. Trash Wheel, Professor Trash Wheel, and Gwynnda. Variables included are dumpster number, date, trash weight, and types of litter collected. Data was cleaned by removing unnecessary rows, variable renamed, converting data types, and combining the three data sets. There were 1,269 observations. Professor Trash Wheel collected 295 tons of trash and Gwynnda collected 18,120 cigarette butts in June 2022. 
+
+
+
 
 
